@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pace.food.foodfinder.MainActivity">
+    <item
+        android:id="@+id/action_deleted"
+        android:orderInCategory="100"
+        android:title="Add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/fridge"
+        android:orderInCategory="100"
+        android:title="Fridge"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/freezer"
+        android:orderInCategory="100"
+        android:title="Freezer"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/pantry"
+        android:orderInCategory="100"
+        android:title="Pantry"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/everything"
+        android:orderInCategory="100"
+        android:title="Everything"
+        app:showAsAction="never" />
+
+
+</menu>
