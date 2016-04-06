@@ -261,11 +261,20 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                 final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker);
 
-                //final TextView dateView = (TextView) dialog.findViewById(R.id.dateViewer);
+                final TextView dateView = (TextView) dialog.findViewById(R.id.dateViewer);
 
-               // Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
 
-                //dateView.setText(new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+                dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+
+                dp.init(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                        dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+                    }
+                });
+
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.submitItem);
                 // if button is clicked, close the custom dialog
