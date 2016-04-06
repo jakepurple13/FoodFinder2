@@ -39,5 +39,14 @@
         android:layout_below="@+id/quantityofFood"
         android:layout_centerHorizontal="true" />
 
+   <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/dateViewer"
+        android:layout_below="@+id/datePicker"
+        android:layout_centerHorizontal="true" />-->
+
 
 </RelativeLayout>

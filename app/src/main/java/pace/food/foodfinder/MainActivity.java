@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
@@ -51,6 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -259,6 +261,12 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                 final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker);
 
+                //final TextView dateView = (TextView) dialog.findViewById(R.id.dateViewer);
+
+               // Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+
+                //dateView.setText(new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+
                 Button dialogButton = (Button) dialog.findViewById(R.id.submitItem);
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -278,10 +286,13 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                     }
                 });
 
+
                 dialog.show();
 
             }
         });
+
+
 
 
     }
@@ -472,6 +483,14 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
     */
     public ArrayList<FoodItem> getEverything() {
         return everything;
+    }
+
+    /**
+     getCurrent
+     returns the currents arraylist
+     */
+    public ArrayList<FoodItem> getCurrent() {
+        return currents;
     }
 
     /**
@@ -792,11 +811,11 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             RelativeLayout rl = (RelativeLayout) rootView.findViewById(R.id.layoutFrag);
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
-
             rvFood = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             // Initialize contacts
             foodItems = new ArrayList<FoodItem>();//FoodItem.createContactsList(5);
             // Create adapter passing in the sample user data
+
             adapter = new FoodAdapter(foodItems);
             // Attach the adapter to the recyclerview to populate items
             rvFood.setAdapter(adapter);
@@ -808,6 +827,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             boolean mSettingEnabled = val != 0;
 
             adapter.setVib(mSettingEnabled);
+
+            changeData(m.getCurrent());
 
             return rootView;
         }
