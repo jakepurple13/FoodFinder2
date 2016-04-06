@@ -1,16 +1,22 @@
 package pace.food.foodfinder;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,12 +52,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -119,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         System.out.println(getIntent().getStringExtra("Name"));
         category = getIntent().getStringExtra("Name");
@@ -306,6 +320,68 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
     }
 
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 13: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                    try {
+                        WriteToFile(true);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    //WriteToFile();
+
+                    try {
+                     String fileName = URLEncoder.encode(FILE_NAME, "UTF-8");
+
+                    String PATH =  getFilesDir()+"/"+fileName.trim().toString();
+                    Log.d("sadkldhfasd", PATH);
+                    File f = new File(getFilesDir(), FILE_NAME);
+                    Log.e("ITS HERE", f.exists() + "\t" + f.toString());
+                    //Uri uri = Uri.fromFile(f);
+                    Uri uri = Uri.parse(FILE_NAME);
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_EMAIL, "");
+                    i.putExtra(Intent.EXTRA_SUBJECT,"android - email with attachment");
+                    i.putExtra(Intent.EXTRA_TEXT, "");
+                    i.putExtra(Intent.EXTRA_STREAM, uri);
+
+                    m.startActivity(Intent.createChooser(i, "Select application"));
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Log.e("NOPE!", "It didnt go through");
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
+
     /**
         readFromFile
         Reads in a text file and returns the text in String format
@@ -315,8 +391,17 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         String ret = "";
 
         try {
-            InputStream inputStream = openFileInput(FILE_NAME);
+            InputStream inputStream;
 
+            //TODO: HERE IS PART 2 OF THE READ FROM EXTERNAL DATA
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME);
+            if(file.exists()) {
+                Log.e("Its here", "1");
+                inputStream = new FileInputStream(file);//openFileInput(file.getPath().trim());
+            } else {
+                inputStream = openFileInput(FILE_NAME);
+                Log.e("Its here", "2");
+            }
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -360,6 +445,40 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         try {
             OutputStreamWriter outputStreamWriter =
                     new OutputStreamWriter(openFileOutput(FILE_NAME, Context.MODE_PRIVATE));
+            outputStreamWriter.write(obj.toString());
+            outputStreamWriter.close();
+            System.out.println("Successfully Copied JSON Object to File...");
+            System.out.println("\nJSON Object: " + obj);
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    /**
+     WriteToFile(
+     Writes the data from the everything arraylist to a text file using json
+     */
+    public void WriteToFile(boolean sharingWriter) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put("Location", getIntent().getStringExtra("Name"));
+        obj.put("Category", "All");
+        obj.put("ItemCount", everything.size());
+        for(int i=0;i<everything.size();i++) {
+            JSONArray food = new JSONArray();
+            food.put(everything.get(i).getName());
+            food.put(everything.get(i).getQuantity());
+            food.put(everything.get(i).getDateInMs());
+            obj.put("Food " + i, food);
+        }
+
+        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File myFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME);
+        myFile.createNewFile();
+        FileOutputStream fOut = new FileOutputStream(myFile);
+        try {
+            OutputStreamWriter outputStreamWriter =
+                    new OutputStreamWriter(fOut);//openFileOutput(f.toString() + "/" + FILE_NAME, Context.MODE_PRIVATE));
             outputStreamWriter.write(obj.toString());
             outputStreamWriter.close();
             System.out.println("Successfully Copied JSON Object to File...");
@@ -451,6 +570,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         //Handle the back button
         if(keyCode == KeyEvent.KEYCODE_BACK && isTaskRoot()) {
             Toast.makeText(this,"Good bye! Have a nice day!", Toast.LENGTH_LONG).show();
+            new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME).delete();
             MainActivity.this.finish();
             return true;
         } else {
@@ -633,6 +753,66 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             startActivity(i);
             MainActivity.this.finish();
             overridePendingTransition(R.anim.to_middle, R.anim.from_middle);
+            return true;
+        } else if(id == R.id.share) {
+
+                int permissionCheck = ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
+                if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                        // Show an expanation to the user *asynchronously* -- don't block
+                        // this thread waiting for the user's response! After the user
+                        // sees the explanation, try again to request the permission.
+                    } else {
+
+                        // No explanation needed, we can request the permission.
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                13);
+
+                        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                        // app-defined int constant. The callback method gets the
+                        // result of the request.
+
+
+
+                    }
+                } else {
+                    try {
+                        WriteToFile(true);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), FILE_NAME);
+                    Uri uri = Uri.fromFile(f);
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    //i.setType("text/plain");
+                    i.setType("message/rfc822");
+                    i.putExtra(Intent.EXTRA_EMAIL, "");
+                    i.putExtra(Intent.EXTRA_SUBJECT,"android - email with attachment");
+                    i.putExtra(Intent.EXTRA_TEXT, "");
+                    i.putExtra(Intent.EXTRA_STREAM, uri);
+
+                    m.startActivity(Intent.createChooser(i, "Select application"));
+
+                    /*if(f.delete()) {
+                        Log.e("RIGHT!", "CORRECT!");
+                    }*/
+
+                }
+
+
+
             return true;
         }
 

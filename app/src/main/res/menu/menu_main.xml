@@ -32,5 +32,12 @@
         android:title="Everything"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="100"
+        android:title="Share"
+        android:icon="@android:drawable/ic_menu_share"
+        app:showAsAction="always" />
+
 
 </menu>
