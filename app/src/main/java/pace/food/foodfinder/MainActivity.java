@@ -30,7 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,7 +62,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -273,11 +272,22 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                 final EditText quantityOfFood = (EditText) dialog.findViewById(R.id.quantityofFood);
 
-                final DatePicker dp = (DatePicker) dialog.findViewById(R.id.datePicker);
+                final CalendarView cv = (CalendarView) dialog.findViewById(R.id.datePicker);
 
                 final TextView dateView = (TextView) dialog.findViewById(R.id.dateViewer);
 
-                Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                        Date initialDate = new Date(year - 1900, month, dayOfMonth);
+                        dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+                    }
+                });
+
+                Date initialDate = new Date(cv.getDate());
+                dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
+
+                /*Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
 
                 dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
 
@@ -287,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                         Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
                         dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
                     }
-                });
+                });*/
 
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.submitItem);
@@ -300,7 +310,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                         String name = String.valueOf(nameOfFood.getText());
                         int amount = Integer.parseInt(String.valueOf(quantityOfFood.getText()));
-                        Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                        //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                        Date d = new Date(cv.getDate());
                         currents.add(new FoodItem(name, amount, d));
                         everything.add(new FoodItem(name, amount, d));
                         fragment_obj.changeData(currents);
@@ -349,9 +360,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                      String fileName = URLEncoder.encode(FILE_NAME, "UTF-8");
 
                     String PATH =  getFilesDir()+"/"+fileName.trim().toString();
-                    Log.d("sadkldhfasd", PATH);
                     File f = new File(getFilesDir(), FILE_NAME);
-                    Log.e("ITS HERE", f.exists() + "\t" + f.toString());
                     //Uri uri = Uri.fromFile(f);
                     Uri uri = Uri.parse(FILE_NAME);
                     Intent i = new Intent(Intent.ACTION_SEND);

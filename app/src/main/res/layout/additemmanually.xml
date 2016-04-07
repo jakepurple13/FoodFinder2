@@ -9,10 +9,9 @@
         android:id="@+id/foodName"
         android:hint="Name of the item"
         android:layout_gravity="center_horizontal"
-        android:layout_alignParentLeft="true"
         android:layout_marginLeft="0dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp" />
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -32,20 +31,30 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <DatePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
-        android:layout_below="@+id/quantityofFood"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/dateViewer"
-        android:layout_below="@+id/datePicker"
+        android:layout_above="@+id/submitItem"
+        android:layout_centerHorizontal="true" />
+
+    <CalendarView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePicker"
+        android:spinnersShown="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="The food was/is added:"
+        android:id="@+id/textView4"
+        android:layout_above="@+id/datePicker"
         android:layout_centerHorizontal="true" />
 
 
