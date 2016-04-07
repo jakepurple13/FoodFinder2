@@ -60,6 +60,9 @@ public class FoodAdapter extends
         if(food.getExpiredColor()== Color.RED) {
             textView.setTextColor(food.getExpiredColor());
             textView.setTypeface(null, Typeface.BOLD);
+        } else if(food.getExpiredColor()==Color.YELLOW) {
+            textView.setTextColor(food.getExpiredColor());
+            textView.setTypeface(null, Typeface.BOLD);
         }
 
         button = viewHolder.messageButton;

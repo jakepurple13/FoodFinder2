@@ -16,7 +16,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                Intent intent = new Intent(SplashScreen.this, FoodFinderButtons.class);
                 intent.putExtra("Name", "Fridge");
                 startActivity(intent);
 

@@ -40,16 +40,19 @@ public class FoodItem implements Comparator<FoodItem> {
       Returns 2 --> if something goes wrong
     */
     private int expiration() {
-
-        long time = Math.abs(dateAdded.getTime()-new Date().getTime());
+        //TODO: change dateAdded to long stuff
+        long time = System.currentTimeMillis()-dateAdded.getTime();
         long seconds = 604800;
         long ms = seconds * 1000;
+        long oneWeek = 1000*60*60*24*7;
 
-        if(time < ms) {
+
+
+        if(time < oneWeek) {
             return 0;
-        } else if(time > (ms*2)) {
+        } else if(time >= oneWeek*2) {
             return -1;
-        } else if(time > ms) {
+        } else if(time >= oneWeek) {
             return 1;
         }
         return 2;

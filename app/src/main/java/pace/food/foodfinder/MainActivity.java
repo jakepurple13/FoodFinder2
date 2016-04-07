@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -304,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                             int amount = Integer.parseInt(amountHold);
                             //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
                             Date d = new Date(cv.getDate());
+                            //Date initialDate = new Date(year - 1900, month, dayOfMonth);
                             currents.add(new FoodItem(name, amount, d));
                             everything.add(new FoodItem(name, amount, d));
                             fragment_obj.changeData(currents);
@@ -597,6 +596,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             }
         }
     }
+
+
 
 
     /**
@@ -1008,7 +1009,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             // Initialize contacts
             foodItems = new ArrayList<FoodItem>();//FoodItem.createContactsList(5);
             // Create adapter passing in the sample user data
-
+            //TODO: Make the arraylists into the adapter
             adapter = new FoodAdapter(foodItems);
             // Attach the adapter to the recyclerview to populate items
             rvFood.setAdapter(adapter);
