@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -286,19 +288,7 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                 Date initialDate = new Date(cv.getDate());
                 dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
-
-                /*Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
-
-                dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
-
-                dp.init(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        Date initialDate = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
-                        dateView.setText("Being added " + new SimpleDateFormat("MM-dd-yyyy").format(initialDate));
-                    }
-                });*/
-
+                cv.setShowWeekNumber(false);
 
                 Button dialogButton = (Button) dialog.findViewById(R.id.submitItem);
                 // if button is clicked, close the custom dialog
@@ -309,14 +299,19 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                         PlaceholderFragment fragment_obj = getActiveFragment();
 
                         String name = String.valueOf(nameOfFood.getText());
-                        int amount = Integer.parseInt(String.valueOf(quantityOfFood.getText()));
-                        //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
-                        Date d = new Date(cv.getDate());
-                        currents.add(new FoodItem(name, amount, d));
-                        everything.add(new FoodItem(name, amount, d));
-                        fragment_obj.changeData(currents);
+                        String amountHold = String.valueOf(quantityOfFood.getText());
+                        if (!amountHold.equals("") || !name.equals("")) {
+                            int amount = Integer.parseInt(amountHold);
+                            //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
+                            Date d = new Date(cv.getDate());
+                            currents.add(new FoodItem(name, amount, d));
+                            everything.add(new FoodItem(name, amount, d));
+                            fragment_obj.changeData(currents);
 
-                        dialog.dismiss();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Please fill all fields in", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
 
@@ -326,8 +321,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             }
         });
 
-
-
+        //barcodeScanner.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+        //manualAdd.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
 
     }
 
