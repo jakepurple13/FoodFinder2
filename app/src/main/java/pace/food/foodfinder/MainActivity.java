@@ -131,8 +131,6 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         System.out.println(getIntent().getStringExtra("Name"));
         category = getIntent().getStringExtra("Name");
         FILE_NAME+=category+".txt";
@@ -166,6 +164,11 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
             //otherwise, read in and get all data from text file for the wanted category
             readIn();
         }
+
+        duplicateRemover(everything);
+        duplicateRemover(currents);
+        duplicateRemover(out);
+        duplicateRemover(reminder);
 
         currentFrag = new PlaceholderFragment();
         outFrag = new PlaceholderFragment();
@@ -202,6 +205,9 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                     manualAdd.show();
                     System.out.println(CURRENT);
                     searchForZero(currents);
+
+                    duplicateRemover(currents);
+
                     getActiveFragment().changeData(currents);
 
                 } else if (currentTab.equals(OUTOF)) {
@@ -209,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                     barcodeScanner.hide();
                     manualAdd.hide();
                     System.out.println(OUTOF);
+
+                    duplicateRemover(out);
+
                     getActiveFragment().changeData(out);
 
                 } else if (currentTab.equals(ALL)) {
@@ -216,6 +225,9 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                     barcodeScanner.hide();
                     manualAdd.hide();
                     System.out.println(ALL);
+
+                    duplicateRemover(everything);
+
                     getActiveFragment().changeData(everything);
 
                 } else if (currentTab.equals(REMIND)) {
@@ -223,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                     barcodeScanner.hide();
                     manualAdd.hide();
                     System.out.println(REMIND);
+
+                    duplicateRemover(reminder);
+
                     getActiveFragment().changeData(reminder);
 
                 }
@@ -298,18 +313,18 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                         String name = String.valueOf(nameOfFood.getText());
                         String amountHold = String.valueOf(quantityOfFood.getText());
-                        if (!amountHold.equals("") || !name.equals("")) {
+                        if (!amountHold.equals("") && !name.equals("")) {
                             int amount = Integer.parseInt(amountHold);
                             //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
                             Date d = new Date(cv.getDate());
-                            //Date initialDate = new Date(year - 1900, month, dayOfMonth);
-                            currents.add(new FoodItem(name, amount, d));
-                            everything.add(new FoodItem(name, amount, d));
+                            Date initialDate = new Date(d.getYear(), d.getMonth(), d.getDay());
+                            currents.add(new FoodItem(name, amount, initialDate));
+                            everything.add(new FoodItem(name, amount, initialDate));
                             fragment_obj.changeData(currents);
 
                             dialog.dismiss();
                         } else {
-                            Toast.makeText(MainActivity.this, "Please fill all fields in", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Please fill all fields in", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -426,6 +441,21 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         }
 
         return ret;
+    }
+
+
+    /**
+     * duplicateRemover
+     * @param lists
+     * removes all duplicates
+     */
+    public void duplicateRemover(ArrayList<FoodItem> lists) {
+        for(int i=lists.size()-1;i>0;i--) {
+            if(lists.get(i).getName().equalsIgnoreCase(lists.get(i-1).getName())) {
+                lists.get(i-1).setQuantity(lists.get(i-1).getQuantity()+lists.get(i).getQuantity());
+                lists.remove(i);
+            }
+        }
     }
 
     /**
@@ -1066,11 +1096,21 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
             foodItems.clear();
 
-            for(int i=0;i<food.size();i++) {
+            foodItems.addAll(food);
+
+            /*for(int i=0;i<food.size();i++) {
+
+                int sub = search(food.get(i).getName());
+
+                *//*if(sub==-1) {
+                    foodItems.add(0, food.get(i));
+                } else {
+                    foodItems.get(sub).addOne();
+                }*//*
 
                 foodItems.add(0, food.get(i));
 
-            }
+            }*/
 
             HelpfulMethods.sort(foodItems);
 

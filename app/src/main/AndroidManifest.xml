@@ -78,7 +78,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FoodFinderButtons"></activity>
+        <activity android:name=".FoodFinderButtons" />
+        <activity android:name=".TutorialPage" />
+        <activity
+            android:name=".ScreenSlidePagerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_screen_slide_pager"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".Tutorial"
+            android:label="@string/title_activity_tutorial"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

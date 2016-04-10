@@ -1,6 +1,7 @@
 package pace.food.foodfinder;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,8 +47,6 @@ public class FoodItem implements Comparator<FoodItem> {
         long ms = seconds * 1000;
         long oneWeek = 1000*60*60*24*7;
 
-
-
         if(time < oneWeek) {
             return 0;
         } else if(time >= oneWeek*2) {
@@ -63,7 +62,7 @@ public class FoodItem implements Comparator<FoodItem> {
         if(count==0) {
             return Color.BLACK;
         } else if(count==1) {
-            return Color.YELLOW;
+            return Color.rgb(229, 122, 48);
         } else if(count==-1) {
             return Color.RED;
         } else if(count==2) {
