@@ -131,8 +131,6 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         System.out.println(getIntent().getStringExtra("Name"));
         category = getIntent().getStringExtra("Name");
         FILE_NAME+=category+".txt";
@@ -298,18 +296,18 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
                         String name = String.valueOf(nameOfFood.getText());
                         String amountHold = String.valueOf(quantityOfFood.getText());
-                        if (!amountHold.equals("") || !name.equals("")) {
+                        if (!amountHold.equals("") && !name.equals("")) {
                             int amount = Integer.parseInt(amountHold);
                             //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
                             Date d = new Date(cv.getDate());
-                            //Date initialDate = new Date(year - 1900, month, dayOfMonth);
-                            currents.add(new FoodItem(name, amount, d));
-                            everything.add(new FoodItem(name, amount, d));
+                            Date initialDate = new Date(d.getYear(), d.getMonth(), d.getDay());
+                            currents.add(new FoodItem(name, amount, initialDate));
+                            everything.add(new FoodItem(name, amount, initialDate));
                             fragment_obj.changeData(currents);
 
                             dialog.dismiss();
                         } else {
-                            Toast.makeText(MainActivity.this, "Please fill all fields in", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Please fill all fields in", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

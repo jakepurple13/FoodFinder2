@@ -57,10 +57,7 @@ public class FoodAdapter extends
         // Set item views based on the data model
         final TextView textView = viewHolder.nameTextView;
         textView.setText(food.toString());
-        if(food.getExpiredColor()== Color.RED) {
-            textView.setTextColor(food.getExpiredColor());
-            textView.setTypeface(null, Typeface.BOLD);
-        } else if(food.getExpiredColor()==Color.YELLOW) {
+        if(food.getExpiredColor()!=Color.BLACK) {
             textView.setTextColor(food.getExpiredColor());
             textView.setTypeface(null, Typeface.BOLD);
         }
