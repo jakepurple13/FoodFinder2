@@ -84,6 +84,8 @@ public class FoodAdapter extends
                     getter = food;
                 }
 
+                button.setText("Quantity: " + food.getQuantity());
+
                 //Haptic feedback so user knows they pressed the button
                 if(vib) {
                     myVib.vibrate(25);
@@ -92,7 +94,7 @@ public class FoodAdapter extends
             }
         });
 
-        button.setText("Use");
+        button.setText("Quantity: " + food.getQuantity());
 
     }
 

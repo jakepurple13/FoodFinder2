@@ -18,8 +18,8 @@ public class SplashScreen extends AppCompatActivity {
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 
-        firstTime = sharedPref.getBoolean("First", false);
-        //firstTime = false;
+        //firstTime = sharedPref.getBoolean("First", false);
+        firstTime = false;
 
 
         new Handler().postDelayed(new Runnable() {
