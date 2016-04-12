@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Vibrator;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +57,7 @@ public class FoodAdapter extends
 
         // Set item views based on the data model
         final TextView textView = viewHolder.nameTextView;
-        textView.setText(food.toString());
+        textView.setText(food.toStrings());
         if(food.getExpiredColor()!=Color.BLACK) {
             textView.setTextColor(food.getExpiredColor());
             textView.setTypeface(null, Typeface.BOLD);
@@ -75,16 +76,15 @@ public class FoodAdapter extends
                 } else {
                     if (food.getQuantity() != 0) {
                         food.removeOne();
+                        ((Button) v).setText("Quantity: " + food.getQuantity());
                     } else {
                         count = position;
                     }
 
                     Log.d("FOOD ITEM", food.toString());
-                    textView.setText(food.toString());
+                    textView.setText(food.toStrings());
                     getter = food;
                 }
-
-                button.setText("Quantity: " + food.getQuantity());
 
                 //Haptic feedback so user knows they pressed the button
                 if(vib) {

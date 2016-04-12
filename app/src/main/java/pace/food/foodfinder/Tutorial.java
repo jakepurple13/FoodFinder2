@@ -2,6 +2,7 @@ package pace.food.foodfinder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -30,7 +31,7 @@ public class Tutorial extends AppCompatActivity {
         previous = (Button) findViewById(R.id.button2);
         iv = (ImageView) findViewById(R.id.imageView);
 
-        iv.setImageResource(R.drawable.screenonetutorialdone);
+        iv.setImageResource(R.drawable.homescreen);
 
         myVib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         //Haptic feedback so user knows they pressed the button
@@ -69,63 +70,90 @@ public class Tutorial extends AppCompatActivity {
             }
         });
 
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                previous.setEnabled(true);
+                counter++;
+                changePic(counter, iv);
+                previous.setEnabled(true);
+                if(mSettingEnabled) {
+                    myVib.vibrate(25);
+                }
+            }
+        });
+
     }
 
     public void changePic(int num, ImageView iv) {
 
+        int pictureID = 0;
+
         switch (num) {
             case 0:
-                //Picasso.with(getBaseContext()).load(R.drawable.screenonetutorialdone).into(iv);
-                iv.setImageResource(R.drawable.screenonetutorialdone);
+                pictureID = R.drawable.homescreen;
                 break;
 
             case 1:
-                //Picasso.with(getBaseContext()).load(R.drawable.mainscreentutorialcategories).into(iv);
-                iv.setImageResource(R.drawable.mainscreentutorialcategories);
+                //iv.setImageResource(R.drawable.mainscreentutorialcategories);
+                pictureID = R.drawable.mainscreentutorial2;
                 break;
 
             case 2:
                 //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialusefunction).into(iv);
-                iv.setImageResource(R.drawable.mainscreentutorialusefunction);
+                //iv.setImageResource(R.drawable.mainscreentutorialusefunction);
+                pictureID = R.drawable.mainscreentutorial3;
                 break;
 
             case 3:
                 //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialmanuallyadd).into(iv);
-                iv.setImageResource(R.drawable.mainscreentutorialmanuallyadd);
+                //iv.setImageResource(R.drawable.mainscreentutorialmanuallyadd);
+                pictureID = R.drawable.mainscreentutorial4;
                 break;
 
             case 4:
                 //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.manualaddtutorialname).into(iv);
-                iv.setImageResource(R.drawable.manualaddtutorialname);
+                //iv.setImageResource(R.drawable.manualaddtutorialname);
+                pictureID = R.drawable.mainscreentutorial5;
                 break;
 
             case 5:
                 //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.manualaddtutorialamount).into(iv);
-                iv.setImageResource(R.drawable.manualaddtutorialamount);
+                //iv.setImageResource(R.drawable.manualaddtutorialamount);
+                pictureID = R.drawable.mainscreentutorial7;
                 break;
 
             case 6:
-                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.manualaddtutorialdate).into(iv);
-                iv.setImageResource(R.drawable.manualaddtutorialdate);
+                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialbarcodeadd).into(iv);
+                //iv.setImageResource(R.drawable.mainscreentutorialbarcodeadd);
+                pictureID = R.drawable.manualaddtutorial2;
                 break;
 
             case 7:
-                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.manualaddtutorialadd).into(iv);
-                iv.setImageResource(R.drawable.manualaddtutorialadd);
+                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialshare).into(iv);
+                //iv.setImageResource(R.drawable.mainscreentutorialshare);
+                pictureID = R.drawable.manualaddtutorial3;
                 break;
 
             case 8:
-                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialbarcodeadd).into(iv);
-                iv.setImageResource(R.drawable.mainscreentutorialbarcodeadd);
+                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialshare).into(iv);
+                //iv.setImageResource(R.drawable.mainscreentutorialshare);
+                pictureID = R.drawable.manualaddtutorial4;
                 break;
 
             case 9:
                 //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialshare).into(iv);
-                iv.setImageResource(R.drawable.mainscreentutorialshare);
-                next.setText("Go to app");
+                //iv.setImageResource(R.drawable.mainscreentutorialshare);
+                pictureID = R.drawable.manualaddtutorial5;
                 break;
 
             case 10:
+                //Picasso.with(Tutorial.this.getBaseContext()).load(R.drawable.mainscreentutorialshare).into(iv);
+                //iv.setImageResource(R.drawable.mainscreentutorialshare);
+                pictureID = R.drawable.color2;
+                break;
+
+            case 11:
 
                 Intent intent = new Intent(Tutorial.this, FoodFinderButtons.class);
                 startActivity(intent);
@@ -136,6 +164,8 @@ public class Tutorial extends AppCompatActivity {
                 break;
 
         }
+
+        iv.setImageResource(pictureID);
     }
 
 

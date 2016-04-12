@@ -112,6 +112,10 @@ public class FoodItem implements Comparator<FoodItem> {
         return name + "\t" + quantity + "\t" + new SimpleDateFormat("MM-dd-yyyy").format(dateAdded);
     }
 
+    public String toStrings() {
+        return name + "\n Date Added: " + new SimpleDateFormat("MM-dd-yyyy").format(dateAdded);
+    }
+
 
     public static ArrayList<FoodItem> createFoodList(int numFood) {
         ArrayList<FoodItem> foodList = new ArrayList<FoodItem>();

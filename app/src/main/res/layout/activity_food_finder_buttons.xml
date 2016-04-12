@@ -14,35 +14,59 @@
         android:layout_height="wrap_content"
         android:text="FRIDGE"
         android:id="@+id/fridgebutton"
-        android:layout_above="@+id/freezerbutton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="26dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/everythingbutton"
+        android:layout_above="@+id/space" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FREEZER"
+        android:textSize="26dp"
         android:id="@+id/freezerbutton"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/fridgebutton"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/fridgebutton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/pantrybutton"
+        android:layout_alignBottom="@+id/textView2" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PANTRY"
         android:id="@+id/pantrybutton"
-        android:layout_below="@+id/freezerbutton"
-        android:layout_alignStart="@+id/freezerbutton"
-        android:layout_alignEnd="@+id/freezerbutton" />
+        android:textSize="26dp"
+        android:layout_alignTop="@+id/everythingbutton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/everythingbutton"
+        android:layout_toEndOf="@+id/space" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="EVERYTHING"
         android:id="@+id/everythingbutton"
-        android:layout_below="@+id/pantrybutton"
-        android:layout_alignEnd="@+id/pantrybutton"
-        android:layout_alignParentStart="true" />
+        android:textSize="26dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_toStartOf="@+id/space" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/textView2"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Space
+        android:layout_width="20px"
+        android:layout_height="20px"
+        android:layout_alignTop="@+id/pantrybutton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="66dp"
+        android:id="@+id/space" />
 
 </RelativeLayout>
