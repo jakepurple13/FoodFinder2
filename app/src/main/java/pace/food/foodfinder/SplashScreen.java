@@ -17,10 +17,9 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-
+        //TODO: These 2 lines of code control whether or not the tutorial screen comes up
         //firstTime = sharedPref.getBoolean("First", false);
         firstTime = false;
-
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -36,12 +35,12 @@ public class SplashScreen extends AppCompatActivity {
 
                 }
 
-                startActivity(intent);
-
                 SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putBoolean("First", true);
                 editor.commit();
+
+                startActivity(intent);
 
                 SplashScreen.this.finish();
 

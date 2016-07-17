@@ -318,8 +318,8 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
                             //Date d = new Date(dp.getYear() - 1900, dp.getMonth(), dp.getDayOfMonth());
                             Date d = new Date(cv.getDate());
                             Date initialDate = new Date(d.getYear(), d.getMonth(), d.getDay());
-                            currents.add(new FoodItem(name, amount, initialDate));
-                            everything.add(new FoodItem(name, amount, initialDate));
+                            FoodItem fi = new FoodItem(name, amount, initialDate);
+                            changeData(fi);
                             fragment_obj.changeData(currents);
 
                             dialog.dismiss();
@@ -340,6 +340,20 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
     }
 
+    public void changeData(FoodItem fi) {
+        int sub = search(fi.getName(), currents);
+        if(sub==-1) {
+            currents.add(fi);
+        } else {
+            currents.get(sub).addOne();
+        }
+        sub = search(fi.getName(), everything);
+        if(sub==-1) {
+            everything.add(fi);
+        } else {
+            everything.get(sub).addOne();
+        }
+    }
 
 
     @Override
@@ -863,14 +877,31 @@ public class MainActivity extends AppCompatActivity implements CustomEventListen
 
         PlaceholderFragment fragment_obj = getActiveFragment();
         try {
-            currents.add(new FoodItem(fetcher.getInfo().name, 1, new Date()));
-            everything.add(new FoodItem(fetcher.getInfo().name, 1, new Date()));
+            FoodItem fi = new FoodItem(fetcher.getInfo().name, 1, new Date());
+            changeData(fi);
             fragment_obj.changeData(currents);
             Log.d("Fetcher Info", fetcher.getInfo().name);
         } catch(NullPointerException e) {
             Toast.makeText(this, "Sorry, could not find this item on the shelves.", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    /**
+     * search
+     * @param key - the string wanted
+     * @return the subscript of where key is
+     * searches the foodItems arraylist for the key
+     */
+    public int search(String key, ArrayList<FoodItem> al) {
+        int sub = -1;
+        for(int i=0;i<al.size();i++) {
+            if(key.equals(al.get(i).getName())) {
+                sub = i;
+            }
+        }
+
+        return sub;
     }
 
     /**

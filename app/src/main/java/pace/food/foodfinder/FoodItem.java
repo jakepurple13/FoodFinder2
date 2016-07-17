@@ -80,7 +80,6 @@ public class FoodItem implements Comparator<FoodItem> {
         quantity++;
     }
 
-
     public void setName(String name) {
         this.name = name;
     }
@@ -104,7 +103,6 @@ public class FoodItem implements Comparator<FoodItem> {
 
     public String getName() {
         return name;
-
     }
 
     @Override
@@ -115,8 +113,7 @@ public class FoodItem implements Comparator<FoodItem> {
     public String toStrings() {
         return name + "\n Date Added: " + new SimpleDateFormat("MM-dd-yyyy").format(dateAdded);
     }
-
-
+    
     public static ArrayList<FoodItem> createFoodList(int numFood) {
         ArrayList<FoodItem> foodList = new ArrayList<FoodItem>();
 
@@ -125,7 +122,6 @@ public class FoodItem implements Comparator<FoodItem> {
         }
         return foodList;
     }
-
 
     @Override
     public int compare(FoodItem lhs, FoodItem rhs) {

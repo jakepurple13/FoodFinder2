@@ -2,7 +2,6 @@ package pace.food.foodfinder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -85,6 +84,13 @@ public class Tutorial extends AppCompatActivity {
 
     }
 
+
+    /**
+     * changePic
+     * @param num - the counter for the picture
+     * @param iv - the ImageView that will be changed
+     * changes the picture based on what the counter is on we are on
+     */
     public void changePic(int num, ImageView iv) {
 
         int pictureID = 0;
